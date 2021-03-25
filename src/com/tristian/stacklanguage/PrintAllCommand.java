@@ -15,7 +15,7 @@ public class PrintAllCommand implements ICommand {
     public void run(String[] args) throws Exception {
 
         while (!Main.getInstance().getStack().isEmpty()) {
-            new PrintCommand().run(null);
+            new PrintCommand().run(null); // repeatedly pop and print from the stack until it's empty.
         }
 
 

@@ -41,7 +41,8 @@ public class CommandParser {
         PRINT_ALL("lp", PrintAllCommand.class),
 //        i fricking hate regular expressions
         LOOP("L[\\-\\d*|\\d*\\(,\\d*)|]+", LoopCommand.class, true),
-        XOR("xor", ExclusiveOrCommand.class);
+        XOR("xor", ExclusiveOrCommand.class),
+        HELP("help", HelpCommand.class);
 
         String identifier;
         Class<? extends ICommand> commandClass;

@@ -18,7 +18,6 @@ public class LoopCommand implements ICommand {
     @Override
     public void run(String[] args) throws Exception {
 
-        System.out.println(Arrays.toString(args));
 
         int start = Integer.parseInt(args[0].replaceAll("[aA-Zz]", "").split(",")[0]);
         int amountOfTimes;
@@ -29,7 +28,6 @@ public class LoopCommand implements ICommand {
             start = 0;
         }
 
-        System.out.println("start : " + start + " end, " + amountOfTimes);
 
         String fixed = Arrays.stream(args).skip(1).collect(Collectors.joining(" "));
 

@@ -29,12 +29,8 @@ public class PrintCommand implements ICommand {
                 System.out.println((char) value);
                 return;
             }
-            if (flag) {
-                System.out.println((char)  Integer.parseInt(args[0]));
-                return;
-            }
             // eh screw it it's just a string
-            System.out.println(Arrays.stream(args).skip(1).collect(Collectors.joining(" ")));
+            System.out.println(Arrays.stream(args).collect(Collectors.joining(" ")));
             return;
         }
 
