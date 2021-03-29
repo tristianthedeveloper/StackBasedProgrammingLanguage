@@ -1,4 +1,6 @@
-package com.tristian.stacklanguage;
+package com.tristian.stacklanguage.commands;
+
+import com.tristian.stacklanguage.Main;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -14,7 +16,7 @@ public class PrintCommand implements ICommand {
      * OPTIONAL: argument 'c' will print it as a character value. (this will only print its char value of the value at this register is an integer)
      */
     @Override
-    public void run(String[] args) throws Exception {
+    public void run(String[] args) {
         boolean flag = args != null && args.length > 0 && args[0].equalsIgnoreCase("c");
         try {
             if (args != null && args.length > 0) {
@@ -35,9 +37,9 @@ public class PrintCommand implements ICommand {
         }
 
         if (flag) {
-            System.out.println((char) Main.getInstance().getStack().removeAt(0));
+            System.out.println((char) Main.getInstance().getLStack().removeAt(0));
             return;
         }
-        System.out.println(Main.getInstance().getStack().removeAt(0));
+        System.out.println(Main.getInstance().getLStack().removeAt(0));
     }
 }

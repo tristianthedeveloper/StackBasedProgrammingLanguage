@@ -1,4 +1,6 @@
-package com.tristian.stacklanguage;
+package com.tristian.stacklanguage.commands;
+
+import com.tristian.stacklanguage.Main;
 
 public class PopCommand implements ICommand {
     @Override
@@ -10,12 +12,12 @@ public class PopCommand implements ICommand {
      * Remove the last element from the register.
      */
     @Override
-    public void run(String[] args) throws Exception {
+    public void run(String[] args) {
 
         if (args.length != 0) {
          System.out.println("args more, returning");
             return;
         }
-        Main.getInstance().getStack().pop();
+        Main.getInstance().getLStack().pop();
     }
 }

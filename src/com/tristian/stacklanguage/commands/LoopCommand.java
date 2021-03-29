@@ -1,4 +1,4 @@
-package com.tristian.stacklanguage;
+package com.tristian.stacklanguage.commands;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -16,7 +16,7 @@ public class LoopCommand implements ICommand {
      * EXAMPLE: L5 mov %n
      */
     @Override
-    public void run(String[] args) throws Exception {
+    public void run(String[] args) {
 
 
         int start = Integer.parseInt(args[0].replaceAll("[aA-Zz]", "").split(",")[0]);

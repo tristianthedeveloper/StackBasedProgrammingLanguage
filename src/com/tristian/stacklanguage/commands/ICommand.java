@@ -1,4 +1,6 @@
-package com.tristian.stacklanguage;
+package com.tristian.stacklanguage.commands;
+
+import com.tristian.stacklanguage.commands.CommandParser;
 
 public interface ICommand {
 

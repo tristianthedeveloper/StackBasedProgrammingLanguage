@@ -1,6 +1,7 @@
-package com.tristian.stacklanguage;
+package com.tristian.stacklanguage.commands;
 
 import com.sun.javaws.exceptions.InvalidArgumentException;
+import com.tristian.stacklanguage.Main;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -14,11 +15,12 @@ public class MoveCommand implements ICommand {
 
 
     @Override
-    public void run(String[] args) throws InvalidArgumentException {
+    public void run(String[] args) {
 
-        if (args.length < 1)
-            throw new InvalidArgumentException(new String[] { "Args must have 1 input, a hexa decimal" });
-
+        if (args.length < 1) {
+            System.out.println(new String[]{"Args must have 1 input, a hexa decimal"});
+            return;
+        }
         String fixedArg = args[0].replace("0x", "");
         Object parsed;
         try {
@@ -30,6 +32,6 @@ public class MoveCommand implements ICommand {
                 parsed = Arrays.stream(args).collect(Collectors.joining(" "));
             }
         }
-        Main.getInstance().getStack().push(parsed);
+        Main.getInstance().getLStack().push(parsed);
     }
 }

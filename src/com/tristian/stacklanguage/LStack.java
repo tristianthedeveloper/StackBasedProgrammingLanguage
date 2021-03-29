@@ -1,12 +1,12 @@
 package com.tristian.stacklanguage;
 
-public class Stack {
+public class LStack {
     private java.util.Stack<Object> stack;
 
 
-    public static Stack setUpStack() {
+    public static LStack setUpStack() {
 
-        Stack instance = new Stack();
+        LStack instance = new LStack();
         instance.stack = new java.util.Stack<>();
         return instance;
     }

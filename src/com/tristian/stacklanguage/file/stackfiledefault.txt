@@ -1,0 +1,25 @@
+package com.tristian.stacklanguage;
+
+import com.tristian.stacklanguage.commands.*;
+import java.util.*;
+import java.io.IOException;
+public class Main {
+    private static Main instance;
+    private LStack LStack;
+    public static void main(String[] args) {
+        new Main().load();
+    }
+    public void load() {
+        instance = this;
+        this.LStack = LStack.setUpStack();
+        runInterpretedCode();
+    }
+    public static Main getInstance() {
+        return instance;
+    }
+
+    public LStack getLStack() {
+        return LStack;
+    }
+
+}

@@ -1,4 +1,4 @@
-package com.tristian.stacklanguage;
+package com.tristian.stacklanguage.commands;
 
 import java.util.Arrays;
 import java.util.regex.Pattern;
@@ -23,6 +23,7 @@ public class CommandParser {
                     command.commandClass.newInstance().run(args);
                     return;
                 }
+
                 command.commandClass.newInstance().run(Arrays.copyOfRange(args, 0, 0));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -33,20 +34,20 @@ public class CommandParser {
     }
 
 
-    enum Commands {
+    public enum Commands {
 
         MOV("mov", MoveCommand.class),
         POP("pop", PopCommand.class),
         PRINT("+", PrintCommand.class),
         PRINT_ALL("lp", PrintAllCommand.class),
-//        i fricking hate regular expressions
+        //        i fricking hate regular expressions
         LOOP("L[\\-\\d*|\\d*\\(,\\d*)|]+", LoopCommand.class, true),
         XOR("xor", ExclusiveOrCommand.class),
         HELP("help", HelpCommand.class);
 
-        String identifier;
-        Class<? extends ICommand> commandClass;
-        boolean special;
+        public String identifier;
+        public Class<? extends ICommand> commandClass;
+        public boolean special;
 
         /**
          * @param identifier   Can use regex
@@ -70,6 +71,16 @@ public class CommandParser {
         }
 
 
+        public static Commands fromClass(String clazz) {
+            // dont ask
+            for (Commands commands : values()) {
+                if (commands.commandClass.getSimpleName().equalsIgnoreCase(clazz))
+                    return commands;
+            }
+            return null;
+        }
+
+
         public static Commands valueOfThing(String test) {
 
             for (Commands cmd : values()) {
@@ -78,7 +89,8 @@ public class CommandParser {
                         if (Pattern.compile(cmd.identifier).matcher(test).matches()) {
                             return cmd;
                         }
-                    } catch (Exception ignored) {};
+                    } catch (Exception ignored) {
+                    }
                 }
                 if (cmd.identifier.equalsIgnoreCase(test)) {
                     return cmd;
