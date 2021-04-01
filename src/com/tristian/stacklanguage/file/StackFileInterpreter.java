@@ -2,18 +2,20 @@ package com.tristian.stacklanguage.file;
 
 import com.tristian.stacklanguage.commands.CommandParser;
 import com.tristian.stacklanguage.commands.ICommand;
+import com.tristian.stacklanguage.section.Section;
 import com.tristian.stacklanguage.util.FileUtil;
 
 import java.io.*;
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class StackFileInterpreter {
 
-//    line 25 needs commands = Arrays.asList('stuff'
+//    line 25 needs commands = Arrays.asList('stuff', 31 for sections.
 
 
     /**
@@ -21,14 +23,14 @@ public class StackFileInterpreter {
      */
     public static List<String> defaultStackFile;
 
-    private HashMap<String, String[]> commands;
+    private List<String[]> commands;
 
     File f;
 
     public static StackFileInterpreter start() {
 
         StackFileInterpreter interpreter = new StackFileInterpreter();
-        interpreter.commands = new LinkedHashMap<>();
+        interpreter.commands = new LinkedList<>();
 
         return interpreter;
     }
@@ -48,7 +50,7 @@ public class StackFileInterpreter {
      * @param args The arguments of said command.
      */
     public void addCommand(String cmd, String[] args) {
-        this.commands.put(cmd, args);
+        this.commands.add(args);
         System.out.println("added cmd");
     }
 
@@ -57,26 +59,45 @@ public class StackFileInterpreter {
     public File create() {
         long time = System.nanoTime();
         File tempFile = null;
+
+
+        final String[] sectionName = new String[1];
+        List<String> sectionCommands = new ArrayList<>();
         try {
             tempFile = new File("./Main.java");
             tempFile.createNewFile();
             FileWriter writer = new FileWriter(tempFile);
             int i = 0;
             for (String s : defaultStackFile) {
+
                 writer.write(s);
                 if (i == 25) { // where to insert thing
 
 
                     System.out.println(commands);
                     writer.write("this.commands = Arrays.asList(new String[] { ");
-                    commands.forEach((cmd, args) -> {
-
-                        try {
-                            writer.write("\"" +
-                                    Arrays.stream(args).collect(Collectors.joining(" ")) + "\",");
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                    final boolean[] flag = {false};
+                    commands.forEach((args) -> {
+                        if (String.join(" ", args).equals(""))
+                            return; // skip empty strings.
+                        if ((sectionName[0] = Section.parseSectionName(Arrays.stream(args).collect(Collectors.joining(" ")))) != null) {
+                            flag[0] = true; // stop, found a section!
+                            return;
                         }
+                        if (flag[0]) {
+                            String stringedArgs = String.join(" ", args);
+                            if (!"done".equals(stringedArgs)) {
+                                System.out.println("adding cmd " + Arrays.stream(args).collect(Collectors.joining(" ")));
+                                sectionCommands.add(stringedArgs); // add section command into section command listy thing
+                            }
+                        } else
+
+                            try {
+                                writer.write("\"" +
+                                        Arrays.stream(args).collect(Collectors.joining(" ")) + "\",");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                     });
                     // end declaration with an empty string :shrug:
                     writer.write("\"\"});");
@@ -105,6 +126,18 @@ public class StackFileInterpreter {
                     writer.write("}");
                      */
                 }
+                if (i == 31) {
+                    writer.write("Section section = new Section(\"" + sectionName[0] + "\");");
+                    sectionCommands.forEach(x -> {
+                        System.out.println("cmd adding: " + x);
+                        try { // tell our compiled program to run our section.
+                            writer.write("section.addCommand(\"" + x.replaceAll("\"", "") + "\")" + ";");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    writer.write("SectionStorage.sections.add(section);");
+                }
                 i++;
             }
             writer.close();
@@ -127,6 +160,7 @@ public class StackFileInterpreter {
                 String[] args = input.split(" "); // split it into arguments
                 System.out.println(Arrays.toString(args));
                 addCommand(args[0] + "", args);
+
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

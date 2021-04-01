@@ -4,7 +4,8 @@ import com.tristian.stacklanguage.commands.*;
 import com.tristian.stacklanguage.var.*;
 import com.tristian.stacklanguage.commands.math.*;
 import com.tristian.stacklanguage.commands.stdout.*;
-
+import com.tristian.stacklanguage.commands.section.*;
+import com.tristian.stacklanguage.section.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -12,7 +13,7 @@ import java.util.*;
 
 public class Main {
 
-   private List<String> commands = new ArrayList<>();
+    private List<String> commands = new ArrayList<>();
     private static Main instance;
 
     private LStack LStack;
@@ -24,9 +25,22 @@ public class Main {
     public void load() {
 
 
+
         instance = this;
         this.LStack = LStack.setUpStack();
+
+
+
+
+
+
+
+
+        if (!SectionStorage.sections.isEmpty()) {
+        SectionStorage.sections.forEach(Section::execute);
+        }
         init();
+
 
     }
 

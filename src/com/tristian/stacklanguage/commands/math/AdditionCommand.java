@@ -16,7 +16,7 @@ public class AdditionCommand implements ICommand {
     @SuppressWarnings("raw")
     @Override
     public Object run(String[] args) throws Exception {
-        int sum = 0;
+        float sum = 0;
 
         String fixedArgs = String.join("", args);
         String[] split = fixedArgs.split(",");
@@ -27,7 +27,6 @@ public class AdditionCommand implements ICommand {
 
         String arg1 = split[0].replaceAll(" ", ""),
                 arg2 = split[1].replaceAll(" ", "");
-        System.out.println("arg1: " + arg1 + ", arg2: " + arg2);
 
         Variable.MemoryEntry parsedArg1 = Variable.getEntryByName(arg1);
         Variable.MemoryEntry parsedArg2 = Variable.getEntryByName(arg2);
@@ -40,7 +39,10 @@ public class AdditionCommand implements ICommand {
             System.out.println("Invalid argument, variable " + arg2 + " cannot be NULL.");
             return null;
         }
-
+        if (parsedArg1.type == Variable.DataType.FLOAT || parsedArg2.type == Variable.DataType.FLOAT) {
+            return parsedArg1.valueAsFloat() + parsedArg2.valueAsFloat();
+        }
+        sum = parsedArg1.valueAsInt() + parsedArg2.valueAsInt();
         return sum;
     }
 

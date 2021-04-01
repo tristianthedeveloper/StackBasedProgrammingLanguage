@@ -16,9 +16,10 @@ public interface ICommand {
             return;
         String toSplit;
         int i;
-        for (i = 0, toSplit = args[i]; i < args.length;
+        for (i = 0; i < args.length;
              i++) {
             try {
+                toSplit = args[i];
                 String[] split = toSplit.split("%"); // split the string at the expected variable start
                 String varName = split[1].replaceAll("%", ""); // get the variable name in between %
                 Variable.MemoryEntry<?> memoryEntry;

@@ -21,7 +21,7 @@ public class Main {
     public static void main(String[] args) {
         args = new String[]{
                 "--interpret",
-                "test.sasm"
+                "section.sasm"
         };
         JarOutStream.loadPaths();
         System.out.println(Arrays.toString(args));

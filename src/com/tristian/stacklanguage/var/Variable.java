@@ -60,6 +60,25 @@ public final class Variable {
             return entries.indexOf(this);
         }
 
+        /**
+         * Only use this if you're certain this memory entry is of type INT or FLOAT!
+         *
+         * @return This number cast to a float value.
+         */
+        public Float valueAsFloat() {
+            return (float) this.value;
+        }
+
+        /**
+         * Only use this if you're certain this memory entry is of type INT or FLOAT!
+         *
+         * @return This number cast to a int value.
+         */
+        public int valueAsInt() {
+            return (int) this.value;
+        }
+
+
         @Override
         public String toString() {
             return "MemoryEntry{" +
