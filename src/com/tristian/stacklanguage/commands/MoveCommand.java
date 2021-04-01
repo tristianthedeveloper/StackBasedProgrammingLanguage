@@ -14,6 +14,10 @@ public class MoveCommand implements ICommand {
     }
 
 
+    /**
+     *
+     * @param args What to push to the stack,
+     */
     @Override
     public void run(String[] args) {
 

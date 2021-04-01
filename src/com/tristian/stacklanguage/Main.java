@@ -1,15 +1,14 @@
 package com.tristian.stacklanguage;
 
 import com.tristian.stacklanguage.commands.CommandParser;
-import com.tristian.stacklanguage.file.StackFile;
 import com.tristian.stacklanguage.file.StackFileInterpreter;
 import com.tristian.stacklanguage.interpreter.JarOutStream;
+import com.tristian.stacklanguage.var.Variable;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
-import java.util.jar.JarOutputStream;
 
 public class Main {
 
@@ -18,10 +17,10 @@ public class Main {
     private LStack LStack;
 
     public static void main(String[] args) {
-        args = new String[]{
-                "--interpret",
-                "test.sasm"
-        };
+//        args = new String[]{
+//                "--interpret",
+//                "test.sasm"
+//        };
         JarOutStream.loadPaths();
         System.out.println(Arrays.toString(args));
         ;
@@ -29,10 +28,7 @@ public class Main {
             if (args[0].equalsIgnoreCase("--interpret")) {
                 String fileName = args[1]; // should be
                 StackFileInterpreter file = StackFileInterpreter.start();
-
                 file.loadFromFile(new File(fileName));
-
-
                 try {
                     File compiled = new JarOutStream().compile(file.create());
                     new JarOutStream().run(compiled);
@@ -58,7 +54,14 @@ public class Main {
 
         String next;
         while (!(next = mainStdin.nextLine()).equalsIgnoreCase("exit()")) {
+            // try to parse a variable from the input and add it.
+            if (Variable.VariableParser.tryAddVariable(next) != null) {
+                System.out.println("var set: " + Variable.entries);
+                continue;
+            }
+
             CommandParser.runCommand(next);
+
         }
     }
 

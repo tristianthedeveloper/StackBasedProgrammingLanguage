@@ -16,15 +16,11 @@ public class CommandParser {
         if ((command = Commands.valueOfThing(args[0])) != null) {
             try {
                 // screw it!
-                if (args.length > 0 && !command.special) {
+                if (!command.special) {
                     command.commandClass.newInstance().run(Arrays.copyOfRange(args, 1, args.length));
-                    return;
-                } else if (args.length > 0 && command.special) {
+                } else {
                     command.commandClass.newInstance().run(args);
-                    return;
                 }
-
-                command.commandClass.newInstance().run(Arrays.copyOfRange(args, 0, 0));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -38,7 +34,7 @@ public class CommandParser {
 
         MOV("mov", MoveCommand.class),
         POP("pop", PopCommand.class),
-        PRINT("+", PrintCommand.class),
+        PRINT("print", PrintCommand.class),
         PRINT_ALL("lp", PrintAllCommand.class),
         //        i fricking hate regular expressions
         LOOP("L[\\-\\d*|\\d*\\(,\\d*)|]+", LoopCommand.class, true),

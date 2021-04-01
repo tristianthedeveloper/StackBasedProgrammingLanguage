@@ -1,16 +1,13 @@
 package com.tristian.stacklanguage.var;
 
-import com.sun.deploy.security.ValidationState;
-
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Pattern;
 
 public final class Variable {
 
-    public static transient final List<MemoryEntry<?>> entries = new CopyOnWriteArrayList<>();
+    public static transient List<MemoryEntry<?>> entries = new CopyOnWriteArrayList<>();
 
     public static final Pattern TYPE_REGEX = Pattern.compile("((int|str|double|float|long))?+\\s*+ [a-z]+([a-zA-Z0-9_]*+)?+ ");
     public static final Pattern VAR_NAME_REGEX = Pattern.compile("[a-z]+([a-zA-Z0-9_]*+)?+");  // alphanumeric variable name, must start with a letter, can have numbers
@@ -22,7 +19,7 @@ public final class Variable {
      */
     public static MemoryEntry<?> getEntryByName(String name) {
         // case sensitive
-        return !entries.isEmpty() ? entries.stream().filter(entry -> entry.name.equals(name)).findFirst().orElse(null) : null;
+        return !entries.isEmpty() ? entries.stream().filter(entry -> entry.name.replaceAll("%", "").equals(name)).findFirst().orElse(null) : null;
     }
 
     /**
@@ -30,23 +27,48 @@ public final class Variable {
      */
     public static class MemoryEntry<T> {
 
-        public transient volatile T value;
+        public transient Object value;
         public transient final String name;
         public transient final DataType type;
 
+        /**
+         * @param name  The name of this variable.
+         * @param value typeof String, will be dynamically converted with the type.
+         * @param type  The type of this variable.
+         */
         public MemoryEntry(String name, T value, DataType type) {
             this.name = name;
-            this.value = value;
+            switch (type) {
+                case STR: {
+                    this.value = value;
+                    break;
+                }
+                case FLOAT:
+                    this.value = Float.parseFloat(("" + value).replaceAll(" ", ""));
+                    break;
+                case INT:
+                    this.value = Integer.parseInt(("" + value).replaceAll(" ", ""));
+                default:
+                    break;
+            }
             this.type = type;
-            System.out.println("memory entry created with name " + name + ", and val: " + value);
         }
 
         public int getEntryIndex() {
             return entries.indexOf(this);
         }
+
+        @Override
+        public String toString() {
+            return "MemoryEntry{" +
+                    "value=" + value +
+                    ", name='" + name + '\'' +
+                    ", type=" + type +
+                    '}';
+        }
     }
 
-    private enum DataType {
+    public enum DataType {
 
         INT,
         STR,
@@ -88,9 +110,9 @@ public final class Variable {
          * @param string A string that matches the regular expression,(int|double|float|long)*+ [a-z]+([a-zA-Z0-9_]*+)?+ \s*=\s*([0-9]*)?+|str*+ [a-z]+([a-zA-Z0-9_]*+)?+ (\s*=\s*"[a-zA-Z0-9_]")
          *               i.e int a = 3
          */
-        public static MemoryEntry<?> tryParseVariable(String string) {
+        public static MemoryEntry<?> tryAddVariable(String string) {
 
-            boolean debug = true;
+            boolean debug = false;
             if (string.matches(p.toString())) {
                 // split at the equal sign, break it up into [datatype name (needs split), equals, value]
                 String[] split = string.split("=");
@@ -109,7 +131,9 @@ public final class Variable {
                     System.out.println(type);
                     System.out.println(name);
                 }
-                return new MemoryEntry<>(name, split[1], type);
+                MemoryEntry<?> memEntry = new MemoryEntry<>(name, split[1], type);
+                entries.add(memEntry);
+                return memEntry;
             }
             return null;
         }
@@ -123,7 +147,7 @@ public final class Variable {
         }
 
         public static void main(String[] args) {
-            tryParseVariable("str a = \"test\"");
+            tryAddVariable("str a = \"test\"");
         }
 
     }
