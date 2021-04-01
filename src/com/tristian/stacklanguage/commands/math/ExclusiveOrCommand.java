@@ -1,6 +1,8 @@
-package com.tristian.stacklanguage.commands;
+package com.tristian.stacklanguage.commands.math;
 
 import com.tristian.stacklanguage.Main;
+import com.tristian.stacklanguage.commands.CommandParser;
+import com.tristian.stacklanguage.commands.ICommand;
 import com.tristian.stacklanguage.var.Variable;
 
 import java.util.Arrays;
@@ -16,9 +18,11 @@ public class ExclusiveOrCommand implements ICommand {
     /**
      * USAGE: xor index1,index2
      * XoR's the bits of index1 by index 2
+     *
+     * @return
      */
     @Override
-    public void run(String[] args) {
+    public Object run(String[] args) {
 
 
         String fixedArgs = Arrays.stream(args).collect(Collectors.joining(""));
@@ -41,13 +45,13 @@ public class ExclusiveOrCommand implements ICommand {
             int val = (int) var_one.value;
             // why, java?
             var_one.value = val ^ (int) var_two.value;
-            return;
+            return var_one.value;
         }
         int index1 = Integer.parseInt(once);
         int index2 = Integer.parseInt(twice);
 
 
-        Main.getInstance().
+        return Main.getInstance().
                 getLStack().
                 xor(index1, index2);
     }

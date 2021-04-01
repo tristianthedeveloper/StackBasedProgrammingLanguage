@@ -10,14 +10,16 @@ public class PopCommand implements ICommand {
 
     /**
      * Remove the last element from the register.
+     * @return
      */
     @Override
-    public void run(String[] args) {
+    public Object run(String[] args) {
 
         if (args.length != 0) {
          System.out.println("args more, returning");
-            return;
+            return null;
         }
         Main.getInstance().getLStack().pop();
+        return null;
     }
 }

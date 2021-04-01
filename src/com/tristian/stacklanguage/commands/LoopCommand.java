@@ -14,9 +14,10 @@ public class LoopCommand implements ICommand {
      * a is optional, and can be omitted.
      * %n can be used as a variable placeholder for the number on the loop, currently the only steps are +1,
      * EXAMPLE: L5 mov %n
+     * @return
      */
     @Override
-    public void run(String[] args) {
+    public Object run(String[] args) {
 
 
         int start = Integer.parseInt(args[0].replaceAll("[aA-Zz]", "").split(",")[0]);
@@ -34,5 +35,6 @@ public class LoopCommand implements ICommand {
         for (int i = start; i <= amountOfTimes; i++) {
             CommandParser.runCommand(fixed.replace("%n", "" + i));
         }
+        return null;
     }
 }

@@ -1,5 +1,7 @@
 package com.tristian.stacklanguage.var;
 
+import com.tristian.stacklanguage.commands.CommandParser;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -104,7 +106,7 @@ public final class Variable {
 
 
         // what the fuck?
-        private static final transient Pattern p = Pattern.compile("(int|double|float)*+ [a-z]+([a-zA-Z0-9_]*+)?+ \\s*=\\s*([0-9]*)?+|str*+ [a-z]+([a-zA-Z0-9_]*+)?+ (\\s*=\\s*\"[a-zA-Z0-9_]+\")");
+        private static final transient Pattern p = Pattern.compile("(int|double|float)*+ [a-z]+([a-zA-Z0-9_]*+)?+ \\s*=\\s*(..*+)?+|str*+ [a-z]+([a-zA-Z0-9_]*+)?+ (\\s*=\\s*\"[a-zA-Z0-9_]+\")");
 
         /**
          * @param string A string that matches the regular expression,(int|double|float|long)*+ [a-z]+([a-zA-Z0-9_]*+)?+ \s*=\s*([0-9]*)?+|str*+ [a-z]+([a-zA-Z0-9_]*+)?+ (\s*=\s*"[a-zA-Z0-9_]")
@@ -121,6 +123,17 @@ public final class Variable {
 
                 String datatype = nameAndDataType[0],
                         name = nameAndDataType[1];
+                String value = split[1];
+
+                CommandParser.Commands command;
+                if ((command = CommandParser.Commands.valueOfThing(value.replaceFirst(" ", "").split(" ")[0])) != null) {
+                    try {
+                        value = "" + command.commandClass.newInstance().run(
+                                Arrays.copyOfRange(value.split(" "), 2, value.split(" ").length));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 if (!validateName(name))
                     return null;
 
@@ -131,7 +144,7 @@ public final class Variable {
                     System.out.println(type);
                     System.out.println(name);
                 }
-                MemoryEntry<?> memEntry = new MemoryEntry<>(name, split[1], type);
+                MemoryEntry<?> memEntry = new MemoryEntry<>(name, value, type);
                 entries.add(memEntry);
                 return memEntry;
             }

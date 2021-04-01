@@ -44,8 +44,9 @@ public class LStack {
 
 
     @SuppressWarnings("unchecked")
-    public void xor(int index1, int index2) {
+    public int xor(int index1, int index2) {
         this.set(index1, (int) this.at(index1) ^ (int) this.at(index2));
+        return (int) this.at(index1) ^ (int) this.at(index2);
     }
 
     public Object at(int where) {

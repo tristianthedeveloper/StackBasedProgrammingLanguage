@@ -1,5 +1,11 @@
 package com.tristian.stacklanguage.commands;
 
+import com.tristian.stacklanguage.commands.math.AdditionCommand;
+import com.tristian.stacklanguage.commands.math.ExclusiveOrCommand;
+import com.tristian.stacklanguage.commands.stdout.HelpCommand;
+import com.tristian.stacklanguage.commands.stdout.PrintAllCommand;
+import com.tristian.stacklanguage.commands.stdout.PrintCommand;
+
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
@@ -39,7 +45,9 @@ public class CommandParser {
         //        i fricking hate regular expressions
         LOOP("L[\\-\\d*|\\d*\\(,\\d*)|]+", LoopCommand.class, true),
         XOR("xor", ExclusiveOrCommand.class),
-        HELP("help", HelpCommand.class);
+        HELP("help", HelpCommand.class),
+        ADD("add", AdditionCommand.class),
+        ;
 
         public String identifier;
         public Class<? extends ICommand> commandClass;
@@ -78,7 +86,6 @@ public class CommandParser {
 
 
         public static Commands valueOfThing(String test) {
-
             for (Commands cmd : values()) {
                 if (!cmd.identifier.equalsIgnoreCase(test)) {
                     try {

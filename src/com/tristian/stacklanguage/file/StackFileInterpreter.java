@@ -13,6 +13,8 @@ import java.util.stream.Stream;
 
 public class StackFileInterpreter {
 
+//    line 25 needs commands = Arrays.asList('stuff'
+
 
     /**
      * The default program.
@@ -62,10 +64,23 @@ public class StackFileInterpreter {
             int i = 0;
             for (String s : defaultStackFile) {
                 writer.write(s);
-                if (i == 23) { // where to insert thing
+                if (i == 25) { // where to insert thing
 
 
                     System.out.println(commands);
+                    writer.write("this.commands = Arrays.asList(new String[] { ");
+                    commands.forEach((cmd, args) -> {
+
+                        try {
+                            writer.write("\"" +
+                                    Arrays.stream(args).collect(Collectors.joining(" ")) + "\",");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    // end declaration with an empty string :shrug:
+                    writer.write("\"\"});");
+                    /*
                     writer.write("public void runInterpretedCode() {");
                     commands.forEach((cmd, args) -> {
                         System.out.println("args: " + Arrays.toString(args));
@@ -88,6 +103,7 @@ public class StackFileInterpreter {
                         }
                     });
                     writer.write("}");
+                     */
                 }
                 i++;
             }
@@ -105,19 +121,12 @@ public class StackFileInterpreter {
         try {
             Scanner s = new Scanner(file);
             while (s.hasNextLine()) {
+
                 String input = s.nextLine();
                 System.out.println(input);
                 String[] args = input.split(" "); // split it into arguments
                 System.out.println(Arrays.toString(args));
-                CommandParser.Commands command;
-                if ((command = CommandParser.Commands.valueOfThing(args[0])) != null) {
-                    try {
-                        // add the class name!
-                        addCommand(command.commandClass.getSimpleName(), args);
-                        // screw it!
-                    } catch (Exception ignored) {
-                    }
-                }
+                addCommand(args[0] + "", args);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

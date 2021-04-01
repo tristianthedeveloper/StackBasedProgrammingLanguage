@@ -7,7 +7,9 @@ import com.tristian.stacklanguage.var.Variable;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -17,10 +19,10 @@ public class Main {
     private LStack LStack;
 
     public static void main(String[] args) {
-//        args = new String[]{
-//                "--interpret",
-//                "test.sasm"
-//        };
+        args = new String[]{
+                "--interpret",
+                "test.sasm"
+        };
         JarOutStream.loadPaths();
         System.out.println(Arrays.toString(args));
         ;
@@ -56,7 +58,6 @@ public class Main {
         while (!(next = mainStdin.nextLine()).equalsIgnoreCase("exit()")) {
             // try to parse a variable from the input and add it.
             if (Variable.VariableParser.tryAddVariable(next) != null) {
-                System.out.println("var set: " + Variable.entries);
                 continue;
             }
 

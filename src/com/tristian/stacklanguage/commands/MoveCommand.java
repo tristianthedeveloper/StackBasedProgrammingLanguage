@@ -1,6 +1,5 @@
 package com.tristian.stacklanguage.commands;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import com.tristian.stacklanguage.Main;
 
 import java.util.Arrays;
@@ -17,13 +16,14 @@ public class MoveCommand implements ICommand {
     /**
      *
      * @param args What to push to the stack,
+     * @return
      */
     @Override
-    public void run(String[] args) {
+    public Object run(String[] args) {
 
         if (args.length < 1) {
             System.out.println(new String[]{"Args must have 1 input, a hexa decimal"});
-            return;
+            return null;
         }
         String fixedArg = args[0].replace("0x", "");
         Object parsed;
@@ -37,5 +37,6 @@ public class MoveCommand implements ICommand {
             }
         }
         Main.getInstance().getLStack().push(parsed);
+        return null;
     }
 }

@@ -1,4 +1,7 @@
-package com.tristian.stacklanguage.commands;
+package com.tristian.stacklanguage.commands.stdout;
+
+import com.tristian.stacklanguage.commands.CommandParser;
+import com.tristian.stacklanguage.commands.ICommand;
 
 public class HelpCommand implements ICommand {
     @Override
@@ -7,7 +10,8 @@ public class HelpCommand implements ICommand {
     }
 
     @Override
-    public void run(String[] args) {
+    public Object run(String[] args) {
         new PrintCommand().run(new String[] { "Good luck." });
+        return null;
     }
 }
