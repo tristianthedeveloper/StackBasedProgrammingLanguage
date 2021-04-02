@@ -2,10 +2,11 @@ package com.tristian.stacklanguage.commands;
 
 import com.tristian.stacklanguage.Main;
 import com.tristian.stacklanguage.register.Register;
+import com.tristian.stacklanguage.var.Variable;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
-
+// TODO MAKE ESP COMMAND (stack pointer)
 public class MoveCommand implements ICommand {
 
     @Override
@@ -14,9 +15,7 @@ public class MoveCommand implements ICommand {
     }
 
 
-
     /**
-     *
      * @param args What to push to the stack,
      * @return
      */
@@ -26,17 +25,18 @@ public class MoveCommand implements ICommand {
         if (tryPushRegister(args)) return null;
 
         if (args.length < 1) {
-            System.out.println(new String[]{"Args must have 1 input, a hexa decimal"});
+            System.out.println("invalid arg length");
             return null;
         }
+        // lol clean me up daddy
         String fixedArg = args[0].replace("0x", "");
         Object parsed;
         try {
             parsed = Integer.parseInt(fixedArg);
-        }catch(Exception e) {
+        } catch (Exception e) {
             try {
                 parsed = Integer.parseInt(fixedArg, 16);
-            }catch(Exception $ex) {
+            } catch (Exception $ex) {
                 parsed = Arrays.stream(args).collect(Collectors.joining(" "));
             }
         }
@@ -50,17 +50,21 @@ public class MoveCommand implements ICommand {
             return false;
 
         String[] fixedArgs = args.clone();
-        replaceVariableNames(fixedArgs); // replace all the variable names that might be hidden inside of it.
         String joined = String.join(" ", args); // turn it back into spaced arguments.
         String[] splitAtCommas = joined.split(","); // split at commas
         if (splitAtCommas.length < 2)
             return false; // assume no register
         String register = splitAtCommas[0];
+//        replaceVariableNames(splitAtCommas); // replace all the variable names that might be hidden inside of it.
         // for strings
         String value = String.join(" ", Arrays.copyOfRange(splitAtCommas, 1, splitAtCommas.length));
-        if (Register.fromName(register) == null)
+        if (Register.fromName(register.replaceAll(" ", "")) == null) {
+            System.out.println("no register kekega");
             return false;
-        Register.fromName(register).getStack().push(value);
+        }
+        value = replaceVarNameInString(value);
+        // the registers value is now value POGGERS
+        Register.fromName(register).push(value); // todo make this flat out replace it, and have push make space.
         return true;
     }
 }

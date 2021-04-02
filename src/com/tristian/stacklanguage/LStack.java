@@ -1,5 +1,8 @@
 package com.tristian.stacklanguage;
 
+/**
+ * Holds all the values.
+ */
 public class LStack {
     private java.util.Stack<Object> stack;
 
@@ -55,5 +58,15 @@ public class LStack {
 
     public java.util.Stack getBackingStack() {
         return this.stack;
+    }
+
+    /**
+     *
+     * // todo Replace the ENTIRE stack with an object, if you want to have the objects automatically make space, use PUSH command.
+     *
+     */
+    public void setTo(Object obj) {
+        this.stack.clear();
+        this.stack.push(obj);
     }
 }

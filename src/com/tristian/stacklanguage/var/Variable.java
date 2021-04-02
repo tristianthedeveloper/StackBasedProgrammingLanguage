@@ -21,7 +21,7 @@ public final class Variable {
      */
     public static MemoryEntry<?> getEntryByName(String name) {
         // case sensitive
-        return !entries.isEmpty() ? entries.stream().filter(entry -> entry.name.replaceAll("%", "").equals(name)).findFirst().orElse(null) : null;
+        return !entries.isEmpty() ? entries.stream().filter(entry -> entry.name.replaceAll("%", "").equals(name.replaceAll(" ", ""))).findFirst().orElse(null) : null;
     }
 
     /**

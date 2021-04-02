@@ -2,10 +2,14 @@ package com.tristian.stacklanguage.register;
 
 import com.sun.istack.internal.FinalArrayList;
 import com.tristian.stacklanguage.LStack;
+import kotlin.UByte;
 import sun.awt.util.IdentityArrayList;
 
 import java.util.List;
 
+/**
+ * Holds a set amount of bytes.
+ */
 public abstract class Register {
 
     private static List<Register> registers;
@@ -16,15 +20,16 @@ public abstract class Register {
      */
     private String name;
     /***
-     * This register's stack.
+     * This register's values.
+     * you get one Object, honestly this should be a byte array,
+     * might do that layer.
      */
-    private LStack stack;
+    private Object stack;
 
     Register(String name) {
         this.name = name;
-        this.stack = LStack.setUpStack();
+        this.stack = 0;
         registers.add(this);
-        System.out.println("registered register named " + name);
     }
 
 
@@ -33,16 +38,30 @@ public abstract class Register {
      * @return The register of name 'name'
      */
     public static Register fromName(String name) {
-        return registers.stream().filter(e -> e.name.replaceAll("%", "").equals(name)).findFirst().orElse(null);
+        return registers.stream().filter(e -> e.name.replaceAll("%", "").equals(name.replaceAll("%", ""))).findFirst().orElse(null);
     }
 
-    public LStack getStack() {
-        return this.stack;
+    /**
+     * @return The value of this register.
+     */
+    public Object getStack() {
+        try {
+            return Integer.parseInt("" + stack);
+        } catch (Exception ex) {
+            return  stack;
+        }
     }
 
-    static {
-        registers = new IdentityArrayList<>();
+        static {
+            registers = new IdentityArrayList<>();
+        }
+
+
+        public void push (Object value){
+            this.stack = value;
+        }
+
+    public String getName() {
+        return this.name;
     }
-
-
 }

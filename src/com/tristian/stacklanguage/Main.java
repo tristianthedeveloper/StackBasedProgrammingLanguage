@@ -20,10 +20,10 @@ public class Main {
     private LStack LStack;
 
     public static void main(String[] args) {
-//        args = new String[]{
-//                "--interpret",
-//                "section.sasm"
-//        };
+        args = new String[]{
+                "--interpret",
+                "./programs/registertest.sasm"
+        };
         JarOutStream.loadPaths();
 //        System.out.println(Arrays.toString(args));
         ;

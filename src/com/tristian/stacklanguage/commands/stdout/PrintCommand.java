@@ -4,6 +4,8 @@ import com.tristian.stacklanguage.Main;
 import com.tristian.stacklanguage.commands.CommandParser;
 import com.tristian.stacklanguage.commands.ICommand;
 
+import java.util.Arrays;
+
 public class PrintCommand implements ICommand {
     @Override
     public CommandParser.Commands getCommandIdentifier() {
@@ -18,6 +20,7 @@ public class PrintCommand implements ICommand {
     @Override
     public Object run(String[] args) {
         replaceVariableNames(args);
+        replaceRegisterValues(args);
         boolean flag = args != null && args.length > 0 && args[0].equalsIgnoreCase("c");
 
         try {
@@ -44,5 +47,6 @@ public class PrintCommand implements ICommand {
         System.out.println(Main.getInstance().getLStack().removeAt(0));
         return null;
     }
+
 
 }

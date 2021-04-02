@@ -6,6 +6,7 @@ import com.tristian.stacklanguage.commands.math.*;
 import com.tristian.stacklanguage.commands.stdout.*;
 import com.tristian.stacklanguage.commands.section.*;
 import com.tristian.stacklanguage.section.*;
+import com.tristian.stacklanguage.register.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -27,6 +28,7 @@ public class Main {
 
 
         instance = this;
+        new Accumulator();
         this.LStack = LStack.setUpStack();
 
 

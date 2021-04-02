@@ -2,6 +2,7 @@ package com.tristian.stacklanguage.commands;
 
 import com.tristian.stacklanguage.commands.math.AdditionCommand;
 import com.tristian.stacklanguage.commands.math.ExclusiveOrCommand;
+import com.tristian.stacklanguage.commands.math.IncCommand;
 import com.tristian.stacklanguage.commands.section.CallSectionCommand;
 import com.tristian.stacklanguage.commands.stdout.HelpCommand;
 import com.tristian.stacklanguage.commands.stdout.PrintAllCommand;
@@ -48,7 +49,8 @@ public class CommandParser {
         XOR("xor", ExclusiveOrCommand.class),
         HELP("help", HelpCommand.class),
         ADD("add", AdditionCommand.class),
-        CALL("call", CallSectionCommand.class);
+        CALL("call", CallSectionCommand.class),
+        INC("inc", IncCommand.class);
 
         public String identifier;
         public Class<? extends ICommand> commandClass;
