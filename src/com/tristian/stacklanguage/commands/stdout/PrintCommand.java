@@ -13,7 +13,7 @@ public class PrintCommand implements ICommand {
     /**
      * Remove the first element of the stack (if no argument is supplied) and prints its value.
      * OPTIONAL: argument 'c' will print it as a character value. (this will only print its char value of the value at this register is an integer)
-     * @return
+     * @return nothin.
      */
     @Override
     public Object run(String[] args) {

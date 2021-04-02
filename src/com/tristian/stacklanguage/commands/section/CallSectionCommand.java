@@ -11,7 +11,7 @@ public class CallSectionCommand implements ICommand {
     }
 
     @Override
-    public Object run(String[] args) throws Exception {
+    public Object run(String[] args) {
         if (args == null)
             return null;
         if (args.length > 2) {
@@ -19,6 +19,7 @@ public class CallSectionCommand implements ICommand {
             if (args[1].equals("section")) {
                 String sectionName = args[2];
                 callSection(sectionName);
+
                 return null;
             }
         }

@@ -60,6 +60,7 @@ public final class Variable {
             return entries.indexOf(this);
         }
 
+
         /**
          * Only use this if you're certain this memory entry is of type INT or FLOAT!
          *
@@ -107,6 +108,7 @@ public final class Variable {
 
         public static DataType parseFromVal(Object val) {
             String toString = "" + val;
+
             // assume no classes will be used on the command line (lol)
             if (toString.matches("[0-9]*+")) {
                 if (toString.matches("\\.")) {

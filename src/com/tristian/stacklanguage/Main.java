@@ -3,6 +3,7 @@ package com.tristian.stacklanguage;
 import com.tristian.stacklanguage.commands.CommandParser;
 import com.tristian.stacklanguage.file.StackFileInterpreter;
 import com.tristian.stacklanguage.interpreter.JarOutStream;
+import com.tristian.stacklanguage.register.Accumulator;
 import com.tristian.stacklanguage.var.Variable;
 
 import java.io.File;
@@ -19,12 +20,12 @@ public class Main {
     private LStack LStack;
 
     public static void main(String[] args) {
-        args = new String[]{
-                "--interpret",
-                "section.sasm"
-        };
+//        args = new String[]{
+//                "--interpret",
+//                "section.sasm"
+//        };
         JarOutStream.loadPaths();
-        System.out.println(Arrays.toString(args));
+//        System.out.println(Arrays.toString(args));
         ;
         if (args.length > 1) {
             if (args[0].equalsIgnoreCase("--interpret")) {
@@ -44,6 +45,7 @@ public class Main {
     }
 
     public void load() {
+        new Accumulator();
         instance = this;
         this.LStack = LStack.setUpStack();
         init();
@@ -73,4 +75,6 @@ public class Main {
     public LStack getLStack() {
         return LStack;
     }
+
 }
+

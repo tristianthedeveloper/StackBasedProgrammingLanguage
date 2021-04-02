@@ -20,6 +20,8 @@ public interface ICommand {
              i++) {
             try {
                 toSplit = args[i];
+                if (!(toSplit.matches(".+%.+%.+")))
+                    continue;
                 String[] split = toSplit.split("%"); // split the string at the expected variable start
                 String varName = split[1].replaceAll("%", ""); // get the variable name in between %
                 Variable.MemoryEntry<?> memoryEntry;
