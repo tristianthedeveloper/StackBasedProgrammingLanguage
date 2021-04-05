@@ -1,0 +1,12 @@
+begin section instruction:
+
+                        int a = 6
+                        int b = 32
+                        int c = xor a,b
+                        mov %ax, c
+                        print %ax
+
+                        done
+
+
+                        call section instruction
