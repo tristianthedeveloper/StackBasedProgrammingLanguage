@@ -1,8 +1,13 @@
 package com.tristian.stacklanguage.commands;
 
+import com.tristian.stacklanguage.commands.logic.CompareCommand;
+import com.tristian.stacklanguage.commands.logic.JumpEqualCommand;
+import com.tristian.stacklanguage.commands.logic.JumpLessThanOrEqualToCommand;
+import com.tristian.stacklanguage.commands.logic.JumpNotEqualsCommand;
 import com.tristian.stacklanguage.commands.math.AdditionCommand;
 import com.tristian.stacklanguage.commands.math.ExclusiveOrCommand;
 import com.tristian.stacklanguage.commands.math.IncCommand;
+import com.tristian.stacklanguage.commands.register.ExchangeCommand;
 import com.tristian.stacklanguage.commands.section.CallSectionCommand;
 import com.tristian.stacklanguage.commands.stdout.HelpCommand;
 import com.tristian.stacklanguage.commands.stdout.PrintAllCommand;
@@ -50,7 +55,12 @@ public class CommandParser {
         HELP("help", HelpCommand.class),
         ADD("add", AdditionCommand.class),
         CALL("call", CallSectionCommand.class),
-        INC("inc", IncCommand.class);
+        INC("inc", IncCommand.class),
+        COMPARE("cmp", CompareCommand.class),
+        JumpEqual("je", JumpEqualCommand.class),
+        JumpNotEquals("jne", JumpNotEqualsCommand.class),
+        JumpLessThanOrEqualTo("jle", JumpLessThanOrEqualToCommand.class),
+        XCHG("xchg", ExchangeCommand.class);
 
         public String identifier;
         public Class<? extends ICommand> commandClass;

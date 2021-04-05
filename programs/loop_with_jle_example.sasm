@@ -1,0 +1,9 @@
+MOV %ax,3
+CMP %ax,15
+JLE Test
+Test: {
+ PRINT %ax is less than or equal to 15
+ INC %ax
+ CMP %ax,15
+ JLE Test
+}

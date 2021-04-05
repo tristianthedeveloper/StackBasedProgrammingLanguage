@@ -2,6 +2,7 @@ package com.tristian.stacklanguage.file;
 
 import com.tristian.stacklanguage.commands.CommandParser;
 import com.tristian.stacklanguage.commands.ICommand;
+import com.tristian.stacklanguage.label.Label;
 import com.tristian.stacklanguage.section.Section;
 import com.tristian.stacklanguage.util.FileUtil;
 
@@ -15,8 +16,8 @@ import java.util.stream.Stream;
 
 public class StackFileInterpreter {
 
-//    line 25 needs commands = Arrays.asList('stuff', 31 for sections.
-
+//    line 28 needs commands = Arrays.asList('stuff', 31 for sections.
+// 47 for labels.
 
     /**
      * The default program.
@@ -25,12 +26,16 @@ public class StackFileInterpreter {
 
     private List<String[]> commands;
 
+    private Label labelToAdd;
+
+
     File f;
 
     public static StackFileInterpreter start() {
 
         StackFileInterpreter interpreter = new StackFileInterpreter();
         interpreter.commands = new LinkedList<>();
+        interpreter.labelToAdd = null;
 
         return interpreter;
     }
@@ -63,6 +68,8 @@ public class StackFileInterpreter {
 
         final String[] sectionName = new String[1];
         List<String> sectionCommands = new ArrayList<>();
+        // clean this up, this looks horrific.
+
         try {
             tempFile = new File("./Main.java");
             tempFile.createNewFile();
@@ -71,7 +78,7 @@ public class StackFileInterpreter {
             for (String s : defaultStackFile) {
 
                 writer.write(s);
-                if (i == 25) { // where to insert thing
+                if (i == 28) { // where to insert thing
 
 
                     System.out.println(commands);
@@ -101,30 +108,6 @@ public class StackFileInterpreter {
                     });
                     // end declaration with an empty string :shrug:
                     writer.write("\"\"});");
-                    /*
-                    writer.write("public void runInterpretedCode() {");
-                    commands.forEach((cmd, args) -> {
-                        System.out.println("args: " + Arrays.toString(args));
-                        ;
-
-                        String arrayCreation = "new String[] { " + Arrays.stream(args).map(e -> "\"" + e + "\"").collect(Collectors.joining(",")) + " }";
-
-                        try {
-                            // screw it!
-                            if (args.length > 0 && !CommandParser.Commands.fromClass(cmd).special) {
-                                writer.write("new " + cmd + "().run(Arrays.copyOfRange(" + arrayCreation + ", 1, " + args.length + "));");
-                                return;
-                            } else if (args.length > 0 && CommandParser.Commands.fromClass(cmd).special) {
-                                writer.write("new " + cmd + "().run(" + arrayCreation + ");");
-                                return;
-                            }
-                            writer.write("new " + cmd + "().run(Arrays.copyOfRange(" + arrayCreation + ", 0, 0));");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
-                    writer.write("}");
-                     */
                 }
                 if (i == 31) {
                     writer.write("Section section = new Section(\"" + sectionName[0] + "\");");
@@ -138,6 +121,22 @@ public class StackFileInterpreter {
                     });
                     writer.write("SectionStorage.sections.add(section);");
                 }
+                if (i == 46) {
+
+                    if (labelToAdd == null)
+                        continue;
+                    List<String> commands = labelToAdd.getCommands();
+                    writer.write("Label label = new Label(\"" + labelToAdd.getName() + "\");");
+                    commands.forEach(command -> {
+                        try {
+                            writer.write("label.addCommand(\"" + command.replaceAll("[\"]", "\\\\\"") + "\");");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    writer.write("Label.labels.add(label);");
+                }
+                writer.write("\n");
                 i++;
             }
             writer.close();
@@ -153,14 +152,26 @@ public class StackFileInterpreter {
         long time = System.nanoTime();
         try {
             Scanner s = new Scanner(file);
+            this.labelToAdd = Label.parseLabel(file);
+            System.out.println(this.labelToAdd);
+            int a = this.labelToAdd.getCommands().size() - 1;
+            boolean flag = false;
+            boolean flag_2 = false;
             while (s.hasNextLine()) {
-
                 String input = s.nextLine();
+                if (this.labelToAdd != null && input.startsWith(this.labelToAdd.getName() + ":") && !flag_2) {
+                    flag = true;
+                }
+                if (flag) {
+                    flag_2 = true;
+                    flag = --a != 0;
+                    System.out.println("skipping");
+                    continue;
+                }
                 System.out.println(input);
                 String[] args = input.split(" "); // split it into arguments
                 System.out.println(Arrays.toString(args));
                 addCommand(args[0] + "", args);
-
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

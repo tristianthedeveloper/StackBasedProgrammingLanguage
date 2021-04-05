@@ -1,6 +1,7 @@
 package com.tristian.stacklanguage.var;
 
 import com.tristian.stacklanguage.commands.CommandParser;
+import com.tristian.stacklanguage.util.GeneralUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +22,7 @@ public final class Variable {
      */
     public static MemoryEntry<?> getEntryByName(String name) {
         // case sensitive
-        return !entries.isEmpty() ? entries.stream().filter(entry -> entry.name.replaceAll("%", "").equals(name.replaceAll(" ", ""))).findFirst().orElse(null) : null;
+        return !entries.isEmpty() ? entries.stream().filter(entry -> entry.name.replaceAll("[\\[\\]]", "").matches(name.replaceAll(" ", ""))).findFirst().orElse(null) : null;
     }
 
     /**
@@ -139,6 +140,7 @@ public final class Variable {
             if (string.matches(p.toString())) {
                 // split at the equal sign, break it up into [datatype name (needs split), equals, value]
                 String[] split = string.split("=");
+                GeneralUtil.replaceRegisterValues(split);
 
                 String[] nameAndDataType = split[0].split(" ");
 

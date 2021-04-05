@@ -25,6 +25,7 @@ public class PrintCommand implements ICommand {
 
         try {
             if (args != null && args.length > 0) {
+                Integer.parseInt(args[1]);
                 System.out.println(Integer.parseInt(args[0]));
                 return null;
             }

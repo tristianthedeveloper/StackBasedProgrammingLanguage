@@ -1,0 +1,10 @@
+mov %ax,1
+cmp %ax,9
+jne Test
+Test: {
+    print Register Num: %ax
+    INC %ax
+    cmp %ax,10
+    jne Test
+}
+

@@ -69,11 +69,9 @@ public class JarOutStream {
                 }
                 if (f.getPath().endsWith(".class") && !f.getName().equals("Main.class")) {
                     String mainCP = Main.class.getPackage().getName().replaceAll("\\.", "\\\\\\\\");
-                    System.out.println(mainCP);
                     String path = f.getPath();
                     String newPath = path.split(mainCP)[1];
                     String newnewPath = mainCP.replaceAll("\\\\\\\\", "\\\\") + newPath;
-                    System.out.println("newnewpath: " + newnewPath.replaceAll("\\\\", "/").replaceFirst(f.getName(), ""));
                     String myLifeSucks = newnewPath.replaceAll("\\\\", "/").replaceFirst(f.getName(), "");
                     add(f, target, myLifeSucks.substring(0, myLifeSucks.length() - 1));
                     continue;
@@ -82,7 +80,6 @@ public class JarOutStream {
                 String path = f.getPath();
                 String newPath = path.split(mainCP)[1];
                 String newnewPath = mainCP.replaceAll("\\\\\\\\", "\\\\") + newPath;
-                System.out.println("newnewpath: " + newnewPath.replaceAll("\\\\", "/").replaceFirst(f.getName(), ""));
                 add(f, target, newnewPath.replaceAll("\\\\", "/").replaceFirst(f.getName(), ""));
             }
 

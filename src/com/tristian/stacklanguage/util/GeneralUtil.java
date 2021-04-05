@@ -1,20 +1,14 @@
-package com.tristian.stacklanguage.commands;
+package com.tristian.stacklanguage.util;
 
 import com.tristian.stacklanguage.register.Register;
 import com.tristian.stacklanguage.var.Variable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public interface ICommand {
+public class GeneralUtil {
 
-    CommandParser.Commands getCommandIdentifier();
-
-
-    Object run(String[] args) throws Exception;
-
-    default void replaceVariableNames(String[] args) {
+    public static void replaceVariableNames(String[] args) {
         if (args == null)
             return;
         if (args.length < 1)
@@ -42,7 +36,7 @@ public interface ICommand {
         }
     }
 
-    default Register getRegisterFromArgsOrNull(String[] args) {
+    public static Register getRegisterFromArgsOrNull(String[] args) {
 
         if (args == null)
             return null;
@@ -68,7 +62,7 @@ public interface ICommand {
      * @param s The string to parse
      * @return The parsed integer, or NULL if failed.
      */
-    default Integer tryParseInt(String s) {
+    public static Integer tryParseInt(String s) {
         try {
             return Integer.parseInt(s);
         } catch (NumberFormatException e) {
@@ -76,7 +70,7 @@ public interface ICommand {
         }
     }
 
-    default List<Variable.MemoryEntry<?>> getVarsFromArgs(String[] args) {
+    public static List<Variable.MemoryEntry<?>> getVarsFromArgs(String[] args) {
         if (args == null)
             return null;
         if (args.length < 1)
@@ -106,7 +100,7 @@ public interface ICommand {
         return entries;
     }
 
-    default void replaceRegisterValues(String[] args) {
+    public static void replaceRegisterValues(String[] args) {
         if (args == null)
             return;
         if (getRegisterFromArgsOrNull(args) == null)
@@ -121,7 +115,7 @@ public interface ICommand {
     }
 
     // this works if its literally only the name of the variable inside the string lol what
-    default String replaceVarNameInString(String string) {
+    public static String replaceVarNameInString(String string) {
         if (Variable.getEntryByName(string) == null)
             return string;
         return string.replaceAll(string, "" + Variable.getEntryByName(string).value);

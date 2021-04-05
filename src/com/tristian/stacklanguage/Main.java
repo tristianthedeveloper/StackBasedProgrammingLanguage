@@ -3,6 +3,7 @@ package com.tristian.stacklanguage;
 import com.tristian.stacklanguage.commands.CommandParser;
 import com.tristian.stacklanguage.file.StackFileInterpreter;
 import com.tristian.stacklanguage.interpreter.JarOutStream;
+import com.tristian.stacklanguage.label.Label;
 import com.tristian.stacklanguage.register.Accumulator;
 import com.tristian.stacklanguage.var.Variable;
 
@@ -13,6 +14,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import static com.tristian.stacklanguage.label.Label.parseLabel;
+
 public class Main {
 
     private static Main instance;
@@ -20,15 +23,15 @@ public class Main {
     private LStack LStack;
 
     public static void main(String[] args) {
-        args = new String[]{
-                "--interpret",
-                "./programs/registertest.sasm"
-        };
-        JarOutStream.loadPaths();
+//        args = new String[]{
+//                "--interpret",
+//                "./programs/var_example.sasm"
+//        };
 //        System.out.println(Arrays.toString(args));
-        ;
+
         if (args.length > 1) {
             if (args[0].equalsIgnoreCase("--interpret")) {
+                JarOutStream.loadPaths();
                 String fileName = args[1]; // should be
                 StackFileInterpreter file = StackFileInterpreter.start();
                 file.loadFromFile(new File(fileName));
@@ -44,10 +47,15 @@ public class Main {
         new Main().load();
     }
 
-    public void load() {
+    private void load() {
         new Accumulator();
         instance = this;
         this.LStack = LStack.setUpStack();
+        // for testing labels
+//        Label l = parseLabel(new File("./programs/loop_with_jne_example.sasm"));
+//        System.out.println(l.toString());
+//        l.run();
+
         init();
 
     }
