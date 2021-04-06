@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 
 public final class Variable {
 
@@ -52,10 +54,16 @@ public final class Variable {
                 case INT:
                     this.value = Integer.parseInt(("" + value).replaceAll(" ", ""));
                 default:
+                    this.value = value;
                     break;
             }
             this.type = type;
+            System.out.println(this);
         }
+
+
+
+
 
         public int getEntryIndex() {
             return entries.indexOf(this);
@@ -96,6 +104,7 @@ public final class Variable {
         INT,
         STR,
         FLOAT,
+        ARRAY,
         AUTO // TODO :)
         ;
 
@@ -162,12 +171,20 @@ public final class Variable {
 
                 DataType type = DataType.parseFromName(datatype); // break it up into two parts, [datatype, name]
 
+                MemoryEntry<?> memEntry = null;
+                if (!(value.contains(","))) memEntry = new MemoryEntry<>(name, value, type);
+
+                if (value.contains(",")) {
+                    List<Integer> ints = Arrays.stream(value.split(",")).map(e -> e.replaceAll(" ", "")).map(Integer::parseInt).collect(Collectors.toList());
+                   memEntry = new IntArray<List<Integer>>(name, ints, DataType.ARRAY);
+                }
+
                 if (debug) {
                     System.out.println(Arrays.toString(split));
                     System.out.println(type);
                     System.out.println(name);
                 }
-                MemoryEntry<?> memEntry = new MemoryEntry<>(name, value, type);
+
                 entries.add(memEntry);
                 return memEntry;
             }

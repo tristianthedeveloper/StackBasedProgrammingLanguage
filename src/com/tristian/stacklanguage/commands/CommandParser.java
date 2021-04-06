@@ -7,6 +7,7 @@ import com.tristian.stacklanguage.commands.logic.JumpNotEqualsCommand;
 import com.tristian.stacklanguage.commands.math.AdditionCommand;
 import com.tristian.stacklanguage.commands.math.ExclusiveOrCommand;
 import com.tristian.stacklanguage.commands.math.IncCommand;
+import com.tristian.stacklanguage.commands.register.CopyCommand;
 import com.tristian.stacklanguage.commands.register.ExchangeCommand;
 import com.tristian.stacklanguage.commands.section.CallSectionCommand;
 import com.tristian.stacklanguage.commands.stdout.HelpCommand;
@@ -60,7 +61,8 @@ public class CommandParser {
         JumpEqual("je", JumpEqualCommand.class),
         JumpNotEquals("jne", JumpNotEqualsCommand.class),
         JumpLessThanOrEqualTo("jle", JumpLessThanOrEqualToCommand.class),
-        XCHG("xchg", ExchangeCommand.class);
+        XCHG("xchg", ExchangeCommand.class),
+        COPY("cpy", CopyCommand.class);
 
         public String identifier;
         public Class<? extends ICommand> commandClass;
