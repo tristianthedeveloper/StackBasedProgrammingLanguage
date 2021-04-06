@@ -27,7 +27,7 @@ public class CompareCommand implements ICommand {
         replaceRegisterValues(args);
 
         String[] split = String.join(" ", args).split(",");
-
+        replaceVariableNames(split);
 
         Comparator.push(split[0], split[1]);
         return null;

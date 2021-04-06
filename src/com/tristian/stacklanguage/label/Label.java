@@ -3,6 +3,7 @@ package com.tristian.stacklanguage.label;
 import com.tristian.stacklanguage.Main;
 import com.tristian.stacklanguage.commands.CommandParser;
 import com.tristian.stacklanguage.section.Section;
+import com.tristian.stacklanguage.var.Variable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -85,8 +86,12 @@ public class Label {
     }
 
 
+
     public void run() {
-        this.commands.forEach(CommandParser::runCommand);
+        this.commands.forEach(x -> {
+            if (Variable.VariableParser.tryAddVariable(x) != null) return;
+            CommandParser.runCommand(x);
+        });
     }
 
     public static List<Label> getLabels() {

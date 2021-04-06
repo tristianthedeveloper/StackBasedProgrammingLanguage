@@ -27,6 +27,7 @@ public class StackFileInterpreter {
     private List<String[]> commands;
 
     private Label labelToAdd;
+    private List<Label> labelsToAdd = new ArrayList<>();
 
 
     File f;
@@ -154,7 +155,7 @@ public class StackFileInterpreter {
             Scanner s = new Scanner(file);
             this.labelToAdd = Label.parseLabel(file);
             System.out.println(this.labelToAdd);
-            int a = this.labelToAdd.getCommands().size() - 1;
+            int a = this.labelToAdd.getCommands().size();
             boolean flag = false;
             boolean flag_2 = false;
             while (s.hasNextLine()) {
@@ -164,7 +165,7 @@ public class StackFileInterpreter {
                 }
                 if (flag) {
                     flag_2 = true;
-                    flag = --a != 0;
+                    flag = a-- != 0;
                     System.out.println("skipping");
                     continue;
                 }

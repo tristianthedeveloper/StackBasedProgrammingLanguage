@@ -1,0 +1,18 @@
+
+int arr = 33,1,2,3,4,1,2,3,41,2314
+int length = 9
+int copy = 33,1,2,3,4,1,2,3,41,2314
+
+int num = 0
+
+jmp loop
+loop: {
+    int current = pop [copy]
+    INC [num]
+    mov %eax,[current]
+    cmp [num],[length]
+    jle loop
+}
+int arr = %eax
+print new array: [arr]
+

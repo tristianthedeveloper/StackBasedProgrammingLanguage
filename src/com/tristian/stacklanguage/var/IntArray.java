@@ -1,12 +1,15 @@
 package com.tristian.stacklanguage.var;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 // work in progress
 public class IntArray<T> extends Variable.MemoryEntry<List<Integer>> {
 
 
-    private List<Integer> value;
+    public ArrayList<Integer> value = new ArrayList<>(Collections.singletonList(0)); // lets start with 0
 
     /**
      * @param name  The name of this variable.
@@ -18,6 +21,8 @@ public class IntArray<T> extends Variable.MemoryEntry<List<Integer>> {
     }
 
     public List<Integer> getContents() {
+        if (value.get(0) != 0)
+            value.add(0, 0);
         return value;
     }
 

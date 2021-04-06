@@ -123,8 +123,8 @@ public interface ICommand {
 
     // this works if its literally only the name of the variable inside the string lol what
     default String replaceVarNameInString(String string) {
-        if (Variable.getEntryByName(string) == null)
+        if (Variable.getEntryByName(string.replaceAll("[\\[\\]]", "")) == null)
             return string;
-        return string.replaceAll(string, "" + Variable.getEntryByName(string).value);
+        return string.replaceAll(string, "" + Variable.getEntryByName(string.replaceAll("[\\[\\]]", "")).value);
     }
 }

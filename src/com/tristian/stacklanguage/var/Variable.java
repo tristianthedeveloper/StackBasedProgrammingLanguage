@@ -58,10 +58,7 @@ public final class Variable {
                     break;
             }
             this.type = type;
-            System.out.println(this);
         }
-
-
 
 
 
@@ -85,7 +82,7 @@ public final class Variable {
          * @return This number cast to a int value.
          */
         public int valueAsInt() {
-            return (int) this.value;
+            return (int) Integer.parseInt(("" + this.value).replaceAll(" ", ""));
         }
 
 
@@ -150,7 +147,6 @@ public final class Variable {
                 // split at the equal sign, break it up into [datatype name (needs split), equals, value]
                 String[] split = string.split("=");
                 GeneralUtil.replaceRegisterValues(split);
-
                 String[] nameAndDataType = split[0].split(" ");
 
                 String datatype = nameAndDataType[0],
@@ -166,6 +162,7 @@ public final class Variable {
                         e.printStackTrace();
                     }
                 }
+                value = value.replaceAll("[\\[\\]]", "");
                 if (!validateName(name))
                     return null;
 
@@ -176,9 +173,12 @@ public final class Variable {
 
                 if (value.contains(",")) {
                     List<Integer> ints = Arrays.stream(value.split(",")).map(e -> e.replaceAll(" ", "")).map(Integer::parseInt).collect(Collectors.toList());
-                   memEntry = new IntArray<List<Integer>>(name, ints, DataType.ARRAY);
+                    memEntry = new IntArray<List<Integer>>(name, ints, DataType.ARRAY);
                 }
-
+                if (getEntryByName(name) != null) {
+                    getEntryByName(name).value = value;
+                    return getEntryByName(name);
+                }
                 if (debug) {
                     System.out.println(Arrays.toString(split));
                     System.out.println(type);

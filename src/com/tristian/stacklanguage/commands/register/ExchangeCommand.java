@@ -33,6 +33,15 @@ public class ExchangeCommand implements ICommand {
             mem2.value = tempEntry;
         } else if (Register.fromName(swap_one) != null) {
             if (Register.fromName(swap_two) == null) {
+                if (Variable.getEntryByName(swap_two) != null) {
+                    Object temp = Register.fromName(swap_one).getStack();
+                    Variable.MemoryEntry memory = Variable.getEntryByName(swap_two);
+                    Register.fromName(swap_one).push(memory.value);
+                    memory.value = null;
+                    memory.value = temp;
+
+                    return null;
+                }
                 System.out.println(swap_two + " is a register, but " + swap_two + " is a null. Quit.");
                 return null;
             }

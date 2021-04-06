@@ -31,6 +31,7 @@ public class Main {
 
         instance = this;
         new Accumulator();
+        new ExtraAccumulator();
         this.LStack = LStack.setUpStack();
 
 

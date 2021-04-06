@@ -22,7 +22,6 @@ public class JumpNotEqualsCommand implements ICommand {
         if (Label.fromName(label) == null)
             System.out.println("Label " + label + " does not exist, quit.");
         if (!(Comparator.values[0] == Comparator.values[1] || Comparator.values[0].equals(Comparator.values[1]))) {
-            System.out.println("not equal");
             Label.fromName(label).run(); // WOO!
             return null;
         }

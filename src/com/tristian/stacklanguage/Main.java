@@ -5,6 +5,7 @@ import com.tristian.stacklanguage.file.StackFileInterpreter;
 import com.tristian.stacklanguage.interpreter.JarOutStream;
 import com.tristian.stacklanguage.label.Label;
 import com.tristian.stacklanguage.register.Accumulator;
+import com.tristian.stacklanguage.register.ExtraAccumulator;
 import com.tristian.stacklanguage.var.Variable;
 
 import java.io.File;
@@ -23,11 +24,11 @@ public class Main {
     private LStack LStack;
 
     public static void main(String[] args) {
-//        args = new String[]{
-//                "--interpret",
-//                "./programs/var_example.sasm"
-//        };
-//        System.out.println(Arrays.toString(args));
+        args = new String[]{
+                "--interpret",
+                "./programs/array_reversal.sasm"
+        };
+        System.out.println(Arrays.toString(args));
 
         if (args.length > 1) {
             if (args[0].equalsIgnoreCase("--interpret")) {
@@ -49,6 +50,7 @@ public class Main {
 
     private void load() {
         new Accumulator();
+        new ExtraAccumulator();
         instance = this;
         this.LStack = LStack.setUpStack();
         // for testing labels

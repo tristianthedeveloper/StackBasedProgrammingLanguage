@@ -29,7 +29,7 @@ public class CopyCommand implements ICommand {
         String swap_two = commaSplit[1].trim();
         if (Variable.getEntryByName(swap_one) != null) {
             if (Variable.getEntryByName(swap_two) == null) {
-                Variable.VariableParser.tryAddVariable(Variable.getEntryByName(swap_one).type.toString().toLowerCase() + " " + swap_two + " = " + Variable.getEntryByName(swap_one).value);
+                Variable.VariableParser.tryAddVariable( "int " + swap_two + " = " + Variable.getEntryByName(swap_one).value);
                 return null;
             }
             Variable.MemoryEntry mem1 = Variable.getEntryByName(swap_one);
@@ -37,6 +37,11 @@ public class CopyCommand implements ICommand {
             mem2.value = mem1.value;
         } else if (Register.fromName(swap_one) != null) {
             if (Register.fromName(swap_two) == null) {
+                if (Variable.getEntryByName(swap_two) != null)
+                {
+                    Variable.MemoryEntry memory = Variable.getEntryByName(swap_two);
+                    memory.value = Register.fromName(swap_one).getStack();
+                }
                 System.out.println(swap_two + " is a register, but " + swap_two + " is a null. Quit.");
                 return null;
             }

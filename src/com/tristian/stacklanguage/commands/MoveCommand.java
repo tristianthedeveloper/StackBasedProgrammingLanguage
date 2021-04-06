@@ -49,20 +49,25 @@ public class MoveCommand implements ICommand {
         if (args == null)
             return false;
 
+        replaceVariableNames(args);
         String[] fixedArgs = args.clone();
+        replaceVariableNames(fixedArgs);
         String joined = String.join(" ", args); // turn it back into spaced arguments.
         String[] splitAtCommas = joined.split(","); // split at commas
+        replaceVariableNames(splitAtCommas);
         if (splitAtCommas.length < 2)
             return false; // assume no register
         String register = splitAtCommas[0];
-//        replaceVariableNames(splitAtCommas); // replace all the variable names that might be hidden inside of it.
+        replaceVariableNames(splitAtCommas); // replace all the variable names that might be hidden inside of it.
         // for strings
         String value = String.join(" ", Arrays.copyOfRange(splitAtCommas, 1, splitAtCommas.length));
         if (Register.fromName(register.replaceAll(" ", "")) == null) {
             System.out.println("no register kekega");
             return false;
         }
-        value = replaceVarNameInString(value);
+        value = replaceVarNameInString(value.replaceAll(" ", ""));
+        if (Variable.getEntryByName(value) != null)
+            value = "" + Variable.getEntryByName(value).value;
         // the registers value is now value POGGERS
         Register.fromName(register).push(value); // todo make this flat out replace it, and have push make space.
         return true;

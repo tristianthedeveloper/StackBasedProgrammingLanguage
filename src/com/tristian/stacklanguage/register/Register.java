@@ -5,6 +5,7 @@ import com.tristian.stacklanguage.LStack;
 import kotlin.UByte;
 import sun.awt.util.IdentityArrayList;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -57,11 +58,15 @@ public abstract class Register {
         }
 
 
-        public void push (Object value){
+        public void push (Object value) {
+
             this.stack = value;
         }
 
     public String getName() {
         return this.name;
     }
+
+    public Object pop() { return null; // override it if you want or not idc
+    };
 }

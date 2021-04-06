@@ -1,0 +1,11 @@
+mov %ax,25
+cmp %ax,0
+jne loop
+loop: {
+
+  print %ax
+  sub %ax
+  cmp %ax,0
+  jne loop
+
+}
