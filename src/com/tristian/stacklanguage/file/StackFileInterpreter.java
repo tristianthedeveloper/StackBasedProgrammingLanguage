@@ -22,6 +22,8 @@ public class StackFileInterpreter {
 
     private Label labelToAdd;
 
+    private List<Section> sections = new LinkedList<>();
+
     public static StackFileInterpreter start() {
 
         StackFileInterpreter interpreter = new StackFileInterpreter();
@@ -98,16 +100,29 @@ public class StackFileInterpreter {
                     writer.write("\"\"});");
                 }
                 if (i == 31) {
-                    writer.write("Section section = new Section(\"" + sectionName[0] + "\");");
-                    sectionCommands.forEach(x -> {
-                        System.out.println("cmd adding: " + x);
-                        try { // tell our compiled program to run our section.
-                            writer.write("section.addCommand(\"" + x.replaceAll("\"", "") + "\")" + ";");
+
+                    sections.forEach(section -> {
+                        sectionName[0] = section.getInformation().getName();
+                        try {
+                            writer.write("Section " + sectionName[0] + " = new Section(\"" + sectionName[0] + "\");");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        section.getCommands().forEach(x -> {
+                            System.out.println("cmd adding: " + x);
+                            try { // tell our compiled program to run our section.
+                                writer.write(sectionName[0] + ".addCommand(\"" + x.replaceAll("\"", "") + "\")" + ";");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        });
+                        try {
+                            writer.write("SectionStorage.sections.add(" + sectionName[0] + ");");
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     });
-                    writer.write("SectionStorage.sections.add(section);");
+
                 }
                 if (i == 46) {
 
@@ -140,13 +155,22 @@ public class StackFileInterpreter {
         long time = System.nanoTime();
         try {
             Scanner s = new Scanner(file);
+
             this.labelToAdd = Label.parseLabel(file);
+            this.sections = Section.loadSectionsFromFile(file);
             System.out.println(this.labelToAdd);
             int a = this.labelToAdd.getCommands().size();
+
             boolean flag = false;
             boolean flag_2 = false;
             while (s.hasNextLine()) {
                 String input = s.nextLine();
+
+                if (this.sections.stream().anyMatch(ree -> input.startsWith("begin section " + ree.getInformation().getName()))) {
+                    System.out.println("Skippin");
+                    a = this.sections.stream().filter(ree -> input.startsWith("begin section " + ree.getInformation().getName())).findFirst().orElse(null).getCommands().size();
+                    flag = true;
+                }
                 if (this.labelToAdd != null && input.startsWith(this.labelToAdd.getName() + ":") && !flag_2) {
                     flag = true;
                 }
@@ -156,7 +180,10 @@ public class StackFileInterpreter {
                     System.out.println("skipping");
                     continue;
                 }
+                if ("done".equals(input))
+                    continue;
                 System.out.println(input);
+
                 String[] args = input.split(" "); // split it into arguments
                 System.out.println(Arrays.toString(args));
                 addCommand(args);

@@ -1,0 +1,26 @@
+
+
+
+begin section testOne:
+
+
+int a = 3
+mov %eax,[a]
+int b = 69
+int c = xor [a],[b]
+print hello this is our section testOne and here is our variable, [c]
+
+done
+
+begin section testTwo:
+
+int a = 69
+mov %eax,[a]
+int b = 32
+int c = xor [a],[b]
+
+print hello this is testTwo and here is our variable, [c]
+done
+
+call section testOne
+call section testTwo

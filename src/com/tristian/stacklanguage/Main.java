@@ -21,7 +21,7 @@ public class Main {
     public static void main(String[] args) {
         args = new String[]{
                 "--interpret",
-                "./programs/array_reversal.sasm"
+                "./programs/multisection.sasm"
         };
         System.out.println(Arrays.toString(args));
 
@@ -48,10 +48,6 @@ public class Main {
         new ExtraAccumulator();
         instance = this;
         this.LStack = com.tristian.stacklanguage.LStack.setUpStack();
-        // for testing labels
-//        Label l = parseLabel(new File("./programs/loop_with_jne_example.sasm"));
-//        System.out.println(l.toString());
-//        l.run();
 
         init();
 

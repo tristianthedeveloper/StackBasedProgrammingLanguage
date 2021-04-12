@@ -50,7 +50,7 @@ public class CommandParser {
         PRINT_ALL("lp", PrintAllCommand.class),
         //        i fricking hate regular expressions
         LOOP("L[\\-\\d*|\\d*\\(,\\d*)|]+", LoopCommand.class, true),
-        XOR("xor", ExclusiveOrCommand.class),
+        XOR("xor", ExclusiveOrCommand.class, false),
         HELP("help", HelpCommand.class),
         ADD("add", AdditionCommand.class),
         CALL("call", CallSectionCommand.class),

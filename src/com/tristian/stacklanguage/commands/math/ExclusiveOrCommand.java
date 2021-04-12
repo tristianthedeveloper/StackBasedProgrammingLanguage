@@ -34,17 +34,19 @@ public class ExclusiveOrCommand implements ICommand {
         // xor %var1%,%var2%
         String once = splitAtCommas[0];
         String twice = splitAtCommas[1];
-        Variable.MemoryEntry<?> var_one = Variable.getEntryByName(once.replaceAll("%", ""));
-        Variable.MemoryEntry<?> var_two = Variable.getEntryByName(twice.replaceAll("%", ""));
+        Variable.MemoryEntry<?> var_one = Variable.getEntryByName(once.replaceAll("xor", ""));
+        Variable.MemoryEntry<?> var_two = Variable.getEntryByName(twice.replaceAll("xor", ""));
+
         if ((var_one == null || var_two == null)) {
             System.out.println("Invalid xor execution: variable " + (var_one == null ? once : twice) + " cannot be NULL");
         } else {
             if (var_one.type != Variable.DataType.INT || var_two.type != Variable.DataType.INT) {
                 System.out.println("Invalid xor execution: both types must be of type INT");
             }
-            int val = (int) var_one.value;
+            System.out.println(var_one.value);
+            int val = var_one.valueAsInt();
             // why, java?
-            var_one.value = val ^ (int) var_two.value;
+            var_one.value = val ^ var_two.valueAsInt();
             return var_one.value;
         }
         int index1 = Integer.parseInt(once);
