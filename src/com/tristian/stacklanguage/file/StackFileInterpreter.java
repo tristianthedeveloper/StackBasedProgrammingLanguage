@@ -1,18 +1,12 @@
 package com.tristian.stacklanguage.file;
 
-import com.tristian.stacklanguage.commands.CommandParser;
-import com.tristian.stacklanguage.commands.ICommand;
 import com.tristian.stacklanguage.label.Label;
 import com.tristian.stacklanguage.section.Section;
 import com.tristian.stacklanguage.util.FileUtil;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class StackFileInterpreter {
 
@@ -27,10 +21,6 @@ public class StackFileInterpreter {
     private List<String[]> commands;
 
     private Label labelToAdd;
-    private List<Label> labelsToAdd = new ArrayList<>();
-
-
-    File f;
 
     public static StackFileInterpreter start() {
 
@@ -52,15 +42,12 @@ public class StackFileInterpreter {
     }
 
     /**
-     * @param cmd  The command to add
      * @param args The arguments of said command.
      */
-    public void addCommand(String cmd, String[] args) {
+    public void addCommand(String[] args) {
         this.commands.add(args);
         System.out.println("added cmd");
     }
-
-    ;
 
     public File create() {
         long time = System.nanoTime();
@@ -88,21 +75,21 @@ public class StackFileInterpreter {
                     commands.forEach((args) -> {
                         if (String.join(" ", args).equals(""))
                             return; // skip empty strings.
-                        if ((sectionName[0] = Section.parseSectionName(Arrays.stream(args).collect(Collectors.joining(" ")))) != null) {
+                        if ((sectionName[0] = Section.parseSectionName(String.join(" ", args))) != null) {
                             flag[0] = true; // stop, found a section!
                             return;
                         }
                         if (flag[0]) {
                             String stringedArgs = String.join(" ", args);
                             if (!"done".equals(stringedArgs)) {
-                                System.out.println("adding cmd " + Arrays.stream(args).collect(Collectors.joining(" ")));
+                                System.out.println("adding cmd " + String.join(" ", args));
                                 sectionCommands.add(stringedArgs); // add section command into section command listy thing
                             }
                         } else
 
                             try {
                                 writer.write("\"" +
-                                        Arrays.stream(args).collect(Collectors.joining(" ")) + "\",");
+                                        String.join(" ", args) + "\",");
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -172,7 +159,7 @@ public class StackFileInterpreter {
                 System.out.println(input);
                 String[] args = input.split(" "); // split it into arguments
                 System.out.println(Arrays.toString(args));
-                addCommand(args[0] + "", args);
+                addCommand(args);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

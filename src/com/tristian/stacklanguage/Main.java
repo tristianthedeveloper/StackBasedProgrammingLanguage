@@ -3,19 +3,14 @@ package com.tristian.stacklanguage;
 import com.tristian.stacklanguage.commands.CommandParser;
 import com.tristian.stacklanguage.file.StackFileInterpreter;
 import com.tristian.stacklanguage.interpreter.JarOutStream;
-import com.tristian.stacklanguage.label.Label;
 import com.tristian.stacklanguage.register.Accumulator;
 import com.tristian.stacklanguage.register.ExtraAccumulator;
 import com.tristian.stacklanguage.var.Variable;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
-
-import static com.tristian.stacklanguage.label.Label.parseLabel;
 
 public class Main {
 
@@ -52,7 +47,7 @@ public class Main {
         new Accumulator();
         new ExtraAccumulator();
         instance = this;
-        this.LStack = LStack.setUpStack();
+        this.LStack = com.tristian.stacklanguage.LStack.setUpStack();
         // for testing labels
 //        Label l = parseLabel(new File("./programs/loop_with_jne_example.sasm"));
 //        System.out.println(l.toString());

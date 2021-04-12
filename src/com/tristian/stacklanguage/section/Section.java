@@ -1,14 +1,11 @@
 package com.tristian.stacklanguage.section;
 
 import com.tristian.stacklanguage.commands.CommandParser;
-import com.tristian.stacklanguage.commands.ICommand;
 import com.tristian.stacklanguage.var.Variable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -40,7 +37,7 @@ public class Section {
 
 //    TODO make a functio nthat returns a list of sections from one file. this method is just for testing
     public static Section loadSectionFromFile(File file) throws FileNotFoundException {
-        Section section = null;
+        Section section;
         String name = "";
         Scanner s = new Scanner(file);
         CopyOnWriteArrayList<String> commandsFound = new CopyOnWriteArrayList<>();

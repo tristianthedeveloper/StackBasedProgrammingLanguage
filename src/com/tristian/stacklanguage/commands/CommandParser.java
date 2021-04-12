@@ -71,7 +71,7 @@ public class CommandParser {
 
         /**
          * @param identifier   Can use regex
-         * @param commandClass
+         * @param commandClass Class of the command.
          */
         Commands(String identifier, Class<? extends ICommand> commandClass, boolean special) {
             this.identifier = identifier;

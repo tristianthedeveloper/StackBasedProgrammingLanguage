@@ -1,11 +1,7 @@
 package com.tristian.stacklanguage.register;
 
-import com.sun.istack.internal.FinalArrayList;
-import com.tristian.stacklanguage.LStack;
-import kotlin.UByte;
 import sun.awt.util.IdentityArrayList;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -68,5 +64,5 @@ public abstract class Register {
     }
 
     public Object pop() { return null; // override it if you want or not idc
-    };
+    }
 }

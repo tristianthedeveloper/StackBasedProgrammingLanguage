@@ -1,6 +1,5 @@
 package com.tristian.stacklanguage.label;
 
-import com.tristian.stacklanguage.Main;
 import com.tristian.stacklanguage.commands.CommandParser;
 import com.tristian.stacklanguage.section.Section;
 import com.tristian.stacklanguage.var.Variable;
@@ -8,8 +7,10 @@ import com.tristian.stacklanguage.var.Variable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.*;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
 
 // literally just a section but inlined
 

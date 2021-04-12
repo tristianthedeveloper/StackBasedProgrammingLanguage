@@ -1,9 +1,10 @@
 package com.tristian.stacklanguage.util;
 
 import com.tristian.stacklanguage.file.StackFile;
-import jdk.internal.util.xml.impl.Input;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

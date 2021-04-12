@@ -1,10 +1,8 @@
 package com.tristian.stacklanguage.register;
 
-import com.tristian.stacklanguage.util.GeneralUtil;
 import com.tristian.stacklanguage.var.Variable;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -15,8 +15,8 @@ public class AdditionCommand implements ICommand {
 
     @SuppressWarnings("raw")
     @Override
-    public Object run(String[] args) throws Exception {
-        float sum = 0;
+    public Object run(String[] args) {
+        float sum;
 
         String fixedArgs = String.join("", args);
         String[] split = fixedArgs.split(",");

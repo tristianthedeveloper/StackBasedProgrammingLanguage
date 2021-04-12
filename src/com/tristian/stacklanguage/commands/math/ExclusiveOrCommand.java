@@ -25,7 +25,7 @@ public class ExclusiveOrCommand implements ICommand {
     public Object run(String[] args) {
 
 
-        String fixedArgs = Arrays.stream(args).collect(Collectors.joining(""));
+        String fixedArgs = String.join("", args);
 
 //        sure go ahead have as many spaces as you fricking want i dont care
 

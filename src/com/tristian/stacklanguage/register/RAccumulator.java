@@ -1,6 +1,5 @@
 package com.tristian.stacklanguage.register;
 
-import com.tristian.stacklanguage.util.GeneralUtil;
 import com.tristian.stacklanguage.var.Variable;
 
 import java.util.LinkedList;

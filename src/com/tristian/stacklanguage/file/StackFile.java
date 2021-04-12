@@ -5,7 +5,6 @@ import com.tristian.stacklanguage.util.FileUtil;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.List;
 
 public class StackFile {

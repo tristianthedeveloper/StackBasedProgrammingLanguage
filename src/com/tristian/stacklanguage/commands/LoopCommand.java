@@ -14,7 +14,6 @@ public class LoopCommand implements ICommand {
      * a is optional, and can be omitted.
      * %n can be used as a variable placeholder for the number on the loop, currently the only steps are +1,
      * EXAMPLE: L5 mov %n
-     * @return
      */
     @Override
     public Object run(String[] args) {

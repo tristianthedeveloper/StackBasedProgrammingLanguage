@@ -1,18 +1,19 @@
 package com.tristian.stacklanguage.interpreter;
 
-import com.tristian.stacklanguage.LStack;
 import com.tristian.stacklanguage.Main;
-import com.tristian.stacklanguage.commands.CommandParser;
 
-import javax.swing.*;
-import javax.tools.*;
+import javax.tools.JavaCompiler;
+import javax.tools.JavaFileObject;
+import javax.tools.StandardJavaFileManager;
+import javax.tools.ToolProvider;
 import java.io.*;
-import java.net.URI;
-import java.util.*;
-import java.util.jar.*;
-import java.util.stream.Collectors;
-import java.util.zip.ZipFile;
-
+import java.util.Map;
+import java.util.Objects;
+import java.util.WeakHashMap;
+import java.util.jar.Attributes;
+import java.util.jar.JarEntry;
+import java.util.jar.JarOutputStream;
+import java.util.jar.Manifest;
 public class JarOutStream {
 
     /**
@@ -21,9 +22,7 @@ public class JarOutStream {
      * Key: Absolute path of the file
      * Value: package path that we want it in.
      */
-    private static Map<String, String> paths = new WeakHashMap<String, String>();
-
-    Manifest manifest = new Manifest();
+    private static Map<String, String> paths = new WeakHashMap<>();
 
     public static void loadPaths() {
         // loop through all the files in the directory.
@@ -62,7 +61,7 @@ public class JarOutStream {
             add(parentFile, target,
                     Main.class.getPackage().getName().split("/")[0]);
         else
-            for (File f : parentFile.listFiles()) {
+            for (File f : Objects.requireNonNull(parentFile.listFiles())) {
                 if (f.isDirectory()) {
                     loopThroughAllFiles(f, target);
                     continue;
@@ -99,7 +98,7 @@ public class JarOutStream {
 
                     target.closeEntry();
                 }
-                for (File nestedFile : source.listFiles()) {
+                for (File nestedFile : Objects.requireNonNull(source.listFiles())) {
                     add(nestedFile, target, !customPathOptional.equals("") ? customPathOptional : nestedFile.getPath());
                     System.out.println(nestedFile + " is directory");
                 }

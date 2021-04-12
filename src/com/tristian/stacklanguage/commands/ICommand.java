@@ -4,8 +4,8 @@ import com.tristian.stacklanguage.register.Register;
 import com.tristian.stacklanguage.var.Variable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public interface ICommand {
 
@@ -100,7 +100,6 @@ public interface ICommand {
                     entries.add(memoryEntry);
                 }
             } catch (Exception e) {
-                continue;
                 // we're FinE
             }
         }
@@ -125,6 +124,6 @@ public interface ICommand {
     default String replaceVarNameInString(String string) {
         if (Variable.getEntryByName(string.replaceAll("[\\[\\]]", "")) == null)
             return string;
-        return string.replaceAll(string, "" + Variable.getEntryByName(string.replaceAll("[\\[\\]]", "")).value);
+        return string.replaceAll(string, "" + Objects.requireNonNull(Variable.getEntryByName(string.replaceAll("[\\[\\]]", ""))).value);
     }
 }

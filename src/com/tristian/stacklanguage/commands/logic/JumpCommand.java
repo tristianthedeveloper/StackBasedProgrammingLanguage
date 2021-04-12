@@ -14,7 +14,7 @@ public class JumpCommand implements ICommand {
     }
 
     @Override
-    public Object run(String[] args) throws Exception {
+    public Object run(String[] args) {
         Label l = Label.fromName(args[0]); // not a label? frick yo
         l.run();
         return null;

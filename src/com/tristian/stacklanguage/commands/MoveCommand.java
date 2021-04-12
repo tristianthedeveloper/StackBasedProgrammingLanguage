@@ -5,7 +5,7 @@ import com.tristian.stacklanguage.register.Register;
 import com.tristian.stacklanguage.var.Variable;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.util.Objects;
 // TODO MAKE ESP COMMAND (stack pointer)
 public class MoveCommand implements ICommand {
 
@@ -17,7 +17,6 @@ public class MoveCommand implements ICommand {
 
     /**
      * @param args What to push to the stack,
-     * @return
      */
     @Override
     public Object run(String[] args) {
@@ -37,7 +36,7 @@ public class MoveCommand implements ICommand {
             try {
                 parsed = Integer.parseInt(fixedArg, 16);
             } catch (Exception $ex) {
-                parsed = Arrays.stream(args).collect(Collectors.joining(" "));
+                parsed = String.join(" ", args);
             }
         }
         Main.getInstance().getLStack().push(parsed);
@@ -67,7 +66,7 @@ public class MoveCommand implements ICommand {
         }
         value = replaceVarNameInString(value.replaceAll(" ", ""));
         if (Variable.getEntryByName(value) != null)
-            value = "" + Variable.getEntryByName(value).value;
+            value = "" + Objects.requireNonNull(Variable.getEntryByName(value)).value;
         // the registers value is now value POGGERS
         Register.fromName(register).push(value); // todo make this flat out replace it, and have push make space.
         return true;

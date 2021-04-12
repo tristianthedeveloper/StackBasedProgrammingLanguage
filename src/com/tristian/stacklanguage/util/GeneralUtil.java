@@ -93,7 +93,6 @@ public class GeneralUtil {
                     entries.add(memoryEntry);
                 }
             } catch (Exception e) {
-                continue;
                 // we're FinE
             }
         }

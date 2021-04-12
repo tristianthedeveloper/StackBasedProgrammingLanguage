@@ -4,7 +4,6 @@ import com.tristian.stacklanguage.commands.CommandParser;
 import com.tristian.stacklanguage.commands.ICommand;
 import com.tristian.stacklanguage.register.Comparator;
 
-import java.util.Arrays;
 
 /**
  * Pushes the values to the actual Comparator "register"

@@ -41,10 +41,6 @@ public class PrintCommand implements ICommand {
             System.out.println(String.join(" ", args));
             return null;
         }
-        if (flag) {
-            System.out.println((char) Main.getInstance().getLStack().removeAt(0));
-            return null;
-        }
         System.out.println(Main.getInstance().getLStack().removeAt(0));
         return null;
     }
