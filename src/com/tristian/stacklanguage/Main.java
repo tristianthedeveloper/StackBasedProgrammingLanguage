@@ -21,7 +21,7 @@ public class Main {
     public static void main(String[] args) {
         args = new String[]{
                 "--interpret",
-                "./programs/multisection.sasm"
+                "./programs/multiplication_with_shl.sasm"
         };
         System.out.println(Arrays.toString(args));
 

@@ -1,0 +1,12 @@
+
+
+int toMultiply = 2
+
+int powerOfTwoToMultiplyBy = 4
+
+print beginning: [toMultiply]
+print powerOfTwoToMultiplyBy: [powerOfTwoToMultiplyBy]
+
+shl [toMultiply],[powerOfTwoToMultiplyBy]
+
+print result: [toMultiply]

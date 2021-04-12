@@ -41,9 +41,6 @@ public class Main {
 
 
 
-        if (!SectionStorage.sections.isEmpty()) {
-        SectionStorage.sections.forEach(Section::execute);
-        }
 
 
 
