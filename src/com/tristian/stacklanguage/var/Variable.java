@@ -5,6 +5,7 @@ import com.tristian.stacklanguage.util.GeneralUtil;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -59,7 +60,6 @@ public final class Variable {
             }
             this.type = type;
         }
-
 
 
         public int getEntryIndex() {
@@ -154,7 +154,7 @@ public final class Variable {
                 String value = split[1];
 
                 CommandParser.Commands command;
-                if ((command = CommandParser.Commands.valueOfThing(value.replaceFirst(" ", "").split(" ")[0])) != null) {
+                if ((command = CommandParser.Commands.valueOfThing(value.trim().split(" ")[0])) != null) {
                     try {
                         value = "" + command.commandClass.newInstance().run(
                                 Arrays.copyOfRange(value.split(" "), 2, value.split(" ").length));
@@ -176,7 +176,7 @@ public final class Variable {
                     memEntry = new IntArray<List<Integer>>(name, ints, DataType.ARRAY);
                 }
                 if (getEntryByName(name) != null) {
-                    getEntryByName(name).value = value;
+                    Objects.requireNonNull(getEntryByName(name)).value = value;
                     return getEntryByName(name);
                 }
                 if (debug) {

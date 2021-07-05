@@ -19,10 +19,10 @@ public class Main {
     private LStack LStack;
 
     public static void main(String[] args) {
-        args = new String[]{
-                "--interpret",
-                "./programs/multiplication_with_shl.sasm"
-        };
+//        args = new String[]{
+//                "--interpret",
+//                "./programs/multiplication_with_shl.sasm"
+//        };
         System.out.println(Arrays.toString(args));
 
         if (args.length > 1) {
